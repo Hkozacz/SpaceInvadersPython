@@ -1,13 +1,10 @@
 import pygame, sys
-import time
-
-
 
 score = 0
 lost = False
 
-class enemy(object):
-    def __init__(self, x, y, size, width):
+class enemy(object): #definition of enemy object class
+    def __init__(self, x, y, size, width): #initialing parameters of enemy
         self.vec = 0.2
         self.x = x
         self.y = y
@@ -20,10 +17,10 @@ class enemy(object):
         self.screen = pygame.display.set_mode(self.size)
         self.counter = 0
 
-    def spawner(self):
+    def spawner(self): #function for drawing enemy on screen
         screen.blit(self.enemyS, self.enemyR)
 
-    def move(self):
+    def move(self): #function for changing x and y of enemy and for making enemy "die"
         deleted = False
         if deleted == False:
             if self.x > width:
@@ -35,6 +32,7 @@ class enemy(object):
             self.x = self.x + self.vec
             self.pos = [self.x, self.y]
             self.enemyR.center = self.pos
+            #if bullet is iny enemy "hitbox" then change it position to somewhere not located in screen and add 1 to score
             if bulletrect.center[0] > self.enemyR.left and bulletrect.center[0] < self.enemyR.right and \
                     bulletrect.center[1] > self.enemyR.top and bulletrect.center[1] < self.enemyR.bottom:
                 #print("hit!", score)
@@ -47,12 +45,13 @@ class enemy(object):
                 deleted = True
                 global score
                 score = score + 1
+            # If player is in enemy hit box, game is lost
             if shiprect.center[0] > self.enemyR.left and shiprect.center[0] < self.enemyR.right and \
                     shiprect.center[1] > self.enemyR.top and shiprect.center[1] < self.enemyR.bottom:
                 global lost
                 lost = True
 
-
+#initialing game, setting up player, and it speed
 pygame.init()
 pygame.display.set_caption('Space Invaders!')
 font = pygame.font.Font('freesansbold.ttf', 16)
@@ -61,7 +60,8 @@ screen = pygame.display.set_mode(size)
 ship = pygame.image.load("ship.png")
 shiprect = ship.get_rect()
 speedCh = [1, 0]
-can = True
+
+can = True # variable for shooting, if can == True, you can shoot a bullet
 
 red = 255, 0, 0
 mypos = [260, 490]
@@ -90,6 +90,8 @@ bulletPos = [-700, -700]  #
 bulletrect.center = bulletPos  #
 #################################################
 
+##################################################
+#Creating enemies objects
 ##################################################
 
 enemy1 = enemy(150, 100, size, width)
@@ -135,7 +137,6 @@ while 1:
         screen.blit(scoreTxt, scoreTxtrect)
         screen.blit(sc, scrc)
         enemy1.spawner()
-        # print(enemy1.enemyR.top," ",enemy1.enemyR.bottom)
         enemy2.spawner()
         enemy3.spawner()
         enemy4.spawner()
